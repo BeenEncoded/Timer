@@ -49,10 +49,27 @@ namespace common
         while(kbhit()) getch();
     }
     
+    inline void ccin()
+    {
+        std::cin.rdbuf()->in_avail();
+    }
+    
     bool is_letter(const char&);
     bool is_number(const char&);
     bool is_special(const char&);
     bool is_char(const char&);
+    
+    inline void center(const std::string& message)
+    {
+        int cent(int(HCENTER) - (message.size() / 2));
+        if(cent < 0)
+        {
+            cent = 0;
+        }
+        for(short x = 0; x < cent; x++) std::cout<< " ";
+        std::cout<< message;
+        ccin();
+    }
     
     namespace input
     {
