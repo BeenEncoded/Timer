@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <time.h>
 
 #include "timer_class.hpp"
 #include "common.hpp"

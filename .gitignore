@@ -5,3 +5,5 @@
 *nbproject
 *.sh
 *dist
+*.inc
+*build

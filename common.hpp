@@ -1,8 +1,10 @@
 #ifndef COMMON_HPP_INCLUDED
 #define COMMON_HPP_INCLUDED
+#include <iostream>
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include "global_defines.hpp"
 
 namespace common
 {
@@ -61,7 +63,7 @@ namespace common
     
     inline void center(const std::string& message)
     {
-        int cent(int(HCENTER) - (message.size() / 2));
+        int cent((int(HCENTER) - (message.size() / 2)));
         if(cent < 0)
         {
             cent = 0;
@@ -83,7 +85,7 @@ namespace common
             std::cin.rdbuf()->in_avail();
         }
         
-        inline void gkey()
+        inline char gkey()
         {
             cl();
             return getch();
