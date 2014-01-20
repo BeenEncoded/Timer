@@ -22,10 +22,31 @@ namespace
         delete ss;
         return t2;
     }
+    
+    /* Displays a number with preceding zeros if it doesn't have the specified
+     number of digits:
+     
+     @digits: number of digits the number should be
+     @i: number to display*/
+    inline string display_number(const int& i, const short& digits)
+    {
+        string temps("");
+        for(short x = (digits - 1); x > 0; x--)
+        {
+            if(i < (10 ^ x))
+            {
+                temps += "0";
+            }
+        }
+        temps += conv<int, string>(i);
+        return temps;
+    }
 }
 
+/** stream operators: */
 namespace timer
 {
+    //clock_class:
     ostream& operator<<(ostream& out, clock_class& c)
     {
         out<< c.t<< char(DATADELIM);
@@ -48,4 +69,57 @@ namespace timer
         }
         return in;
     }
+    
+    //Timer_class:
+    ostream& operator<<(ostream& out, timer_class& t)
+    {
+        char delim(DATADELIM);
+        out<< t.start_time<< delim;
+        out<< t.time_length<< delim;
+        return out;
+    }
+    
+    istream& operator>>(istream& in, timer_class& t)
+    {
+        t = timer_class();
+        char delim(DATADELIM);
+        string *temps(new string(""));
+        if(in.good())
+        {
+            getline(in, *temps, delim);
+            if(!in.fail())
+            {
+                t.start_time = conv<string, clock_t>(*temps);
+            }
+        }
+        temps->erase();
+        if(in.good())
+        {
+            getline(in, *temps, delim);
+            if(!in.fail())
+            {
+                this->time_length = conv<string, clock_t>(*temps);
+            }
+        }
+        temps->erase();
+        delete temps;
+        return in;
+    }
+    
+    
+}
+
+/** clock_class members: */
+namespace timer
+{
+    string clock_class::display() const
+    {
+        string temps("");
+        temps += (display_number(this->hours, 2) + " : ");
+        temps += (display_number((this->minutes() % 60), 2) + " : ");
+        temps += (display_number((this->seconds() % 60), 2) + ".");
+        temps += display_number((this->miliseconds() % 100), 3);
+        return temps;
+    }
+    
 }

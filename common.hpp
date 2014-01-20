@@ -4,6 +4,8 @@
 #include <string>
 #include <windows.h>
 #include <conio.h>
+#include <sstream>
+
 #include "global_defines.hpp"
 
 namespace common
@@ -92,6 +94,21 @@ namespace common
         }
         
         std::string get_user_string(const std::string&);
+        
+        template<class type>
+        inline void guser_string_toany(const std::string& s, type& t)
+        {
+            std::string *temps(new std::string(get_user_string(s)));
+            std::stringstream *ss(new std::stringstream());
+            if((*temps) != GSTRING_CANCEL)
+            {
+                (*ss)<< (*temps);
+                (*ss)>> t;
+            }
+            temps->erase();
+            delete ss;
+            delete temps;
+        }
     }
     
     inline void wait()
