@@ -138,12 +138,6 @@ namespace timer
             return clock_class(this->time_length);
         }
         
-        /* Returns the time which the timer shoudl end. */
-        clock_class get_end_time() const
-        {
-            return clock_class((this->start_time + this->time_length));
-        }
-        
         /* Returns the amount of time that has passed since
          the timer was started.  Best used as a chronograph.*/
         clock_class time_passed() const

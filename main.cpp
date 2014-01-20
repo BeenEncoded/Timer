@@ -23,28 +23,6 @@ namespace
         return t2;
     }
     
-    /*
-    inline string display_number(const int& x)
-    {
-        string disp("");
-        if(x < 10)
-        {
-            disp += '0';
-        }
-        disp += conv<int, string>(x);
-        return disp;
-    }
-    
-    inline string display_timer(timer::timer_class& t)
-    {
-        string disp("");
-        disp += display_number(t.hours_left());
-        disp += " : ";
-        disp += display_number(t.minutes_left());
-        disp += (string(" : ") + display_number(t.seconds_left()) + "." + display_number(t.miliseconds_left()));
-        return disp;
-    }*/
-    
     inline void set_time(timer::timer_class& t)
     {
         using namespace common;
