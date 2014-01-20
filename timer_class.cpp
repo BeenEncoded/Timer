@@ -30,15 +30,11 @@ namespace
      @i: number to display*/
     inline string display_number(const int& i, const short& digits)
     {
-        string temps("");
-        for(short x = (digits - 1); x > 0; x--)
+        string temps(conv<int, string>(i));
+        while(temps.size() < unsigned(digits))
         {
-            if(i < (10 ^ x))
-            {
-                temps += "0";
-            }
+            temps = ("0" + temps);
         }
-        temps += conv<int, string>(i);
         return temps;
     }
 }
@@ -98,7 +94,7 @@ namespace timer
             getline(in, *temps, delim);
             if(!in.fail())
             {
-                this->time_length = conv<string, clock_t>(*temps);
+                t.time_length = conv<string, clock_t>(*temps);
             }
         }
         temps->erase();
@@ -115,10 +111,10 @@ namespace timer
     string clock_class::display() const
     {
         string temps("");
-        temps += (display_number(this->hours, 2) + " : ");
+        temps += (display_number(this->hours(), 2) + " : ");
         temps += (display_number((this->minutes() % 60), 2) + " : ");
         temps += (display_number((this->seconds() % 60), 2) + ".");
-        temps += display_number((this->miliseconds() % 100), 3);
+        temps += display_number((this->miliseconds() % 100), 2);
         return temps;
     }
     

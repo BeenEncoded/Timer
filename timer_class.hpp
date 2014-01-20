@@ -55,6 +55,16 @@ namespace timer
             return (this->t <= c.t);
         }
         
+        bool operator>(const clock_class& c) const
+        {
+            return (this->t > c.t);
+        }
+        
+        bool operator>=(const clock_class& c) const
+        {
+            return (this->t >= c.t);
+        }
+        
         /* Total hours stored in this class. */
         int hours() const
         {
@@ -122,9 +132,16 @@ namespace timer
             this->start_time = clock();
         }
         
+        /* Returns the time for which the timer will run */
         clock_class get_time_set() const
         {
             return clock_class(this->time_length);
+        }
+        
+        /* Returns the time which the timer shoudl end. */
+        clock_class get_end_time() const
+        {
+            return clock_class((this->start_time + this->time_length));
         }
         
         /* Returns the amount of time that has passed since
@@ -141,13 +158,18 @@ namespace timer
             return clock_class(((this->start_time + this->time_length) - clock())).display();
         }
         
+        bool finished() const
+        {
+            return (((this->start_time + this->time_length) - clock()) <= 0);
+        }
+        
         /* Returns a data structure which contains hours minutes and seconds. */
         time_data get_time_data() const
         {
             time_data td;
-            td.hours = (this->time_length / (CLOCKS_PER_SEC * 60 * 60));
-            td.minutes = (this->time_length / (CLOCKS_PER_SEC * 60));
-            td.seconds = (this->time_length / CLOCKS_PER_SEC);
+            td.hours = ((((this->time_length / CLOCKS_PER_SEC)/ 60) / 60));
+            td.minutes = (((this->time_length / CLOCKS_PER_SEC) / 60) % 60);
+            td.seconds = ((this->time_length / CLOCKS_PER_SEC) % 60);
             return td;
         }
         

@@ -109,6 +109,8 @@ namespace common
             delete ss;
             delete temps;
         }
+        
+        bool is_sure(const std::string&);
     }
     
     inline void wait()

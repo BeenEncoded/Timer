@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 #include <time.h>
+#include <conio.h>
+#include <windows.h>
 
 #include "timer_class.hpp"
 #include "common.hpp"
@@ -46,7 +48,7 @@ namespace
     inline void set_time(timer::timer_class& t)
     {
         using namespace common;
-        timer::time_data tdata;
+        timer::time_data tdata = t.get_time_data();
         char ch;
         while(true)
         {
@@ -55,9 +57,9 @@ namespace
             center("Set Timer");
             cout<< endl;
             for(short x = 0; x < 3; x++) cout<< endl;
-            cout<< " 1 -  Hours: "<< t.get_time_set().hours()<< endl;
-            cout<< " 2 -  Minutes: "<< (t.get_time_set().minutes() % 60)<< endl;
-            cout<< " 3 -  Seconds: "<< (t.get_time_set().seconds() % 60)<< endl;
+            cout<< " 1 -  Hours: "<< tdata.hours<< endl;
+            cout<< " 2 -  Minutes: "<< tdata.minutes<< endl;
+            cout<< " 3 -  Seconds: "<< tdata.seconds<< endl;
             cout<< endl;
             cout<< " [BACKSPACE] -  Done"<< endl;
             
@@ -70,16 +72,19 @@ namespace
                     {
                         case '1':
                         {
+                            input::guser_string_toany("Enter number of hours: ", tdata.hours);
                         }
                         break;
                         
                         case '2':
                         {
+                            input::guser_string_toany("Enter number of minutes: ", tdata.minutes);
                         }
                         break;
                         
                         case '3':
                         {
+                            input::guser_string_toany("Enter number of seconds: ", tdata.seconds);
                         }
                         break;
                         
@@ -95,6 +100,8 @@ namespace
                     {
                         case BACKSPACE_KEY:
                         {
+                            t = timer::timer_class(tdata);
+                            timer::file::save(t);
                             return;
                         }
                         break;
@@ -109,9 +116,9 @@ namespace
                     break;
             }
         }
-        return false;
     }
     
+    /* Main settings menu for setting the timer. */
     inline void timer_setting(timer::timer_class& t)
     {
         using namespace common;
@@ -173,7 +180,70 @@ namespace
     }
 }
 
+inline void run_timer(timer::timer_class& t)
+{
+    using namespace common;
+    t.start();
+    cl();
+    while(!kbhit())
+    {
+        cls();
+        for(short x = 0; x < 10; x++) cout<< endl;
+        center(t.display_time_left());
+        Sleep((1000 / 30));
+        if(t.finished())
+        {
+            Beep(1500, 150);
+        }
+    }
+}
+
+inline void main_menu()
+{
+    using namespace common;
+    timer::timer_class t;
+    timer::file::load(t);
+    char ch;
+    while(true)
+    {
+        cls();
+        cout<< endl;
+        center("Timer");
+        cout<< endl;
+        for(short x = 0; x < 3; x++) cout<< endl;
+        cout<< " 1 -  Start Timer"<< endl;
+        cout<< " 2 -  Set timer"<< endl;
+        cout<< endl;
+        cout<< " q -  Exit"<< endl;
+        ch = input::gkey();
+        switch(tolower(ch))
+        {
+            case '1':
+            {
+                run_timer(t);
+            }
+            break;
+            
+            case '2':
+            {
+                timer_setting(t);
+            }
+            break;
+            
+            case 'q':
+            {
+                return;
+            }
+            break;
+            
+            default:
+                break;
+        }
+    }
+}
+
 int main()
 {
+    main_menu();
     return 0;
 }

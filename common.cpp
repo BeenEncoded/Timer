@@ -127,6 +127,37 @@ namespace common
             return GSTRING_CANCEL;
         }
         
-        
+        bool is_sure(const string& message)
+        {
+            char ch;
+            while(true)
+            {
+                cls();
+                for(short x = 0; x < 10; x++) cout<< endl;
+                center(((message.size() > 0) ? message : "ARE YOU SURE??"));
+                cout<< endl<< endl;
+                center("Y/N?");
+                cout<< endl;
+                ch = tolower(gkey());
+                switch(ch)
+                {
+                    case 'y':
+                    {
+                        return true;
+                    }
+                    break;
+                    
+                    case 'n':
+                    {
+                        return false;
+                    }
+                    break;
+                    
+                    default:
+                        break;
+                }
+            }
+            return false;
+        }
     }
 }
